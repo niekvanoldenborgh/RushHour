@@ -25,7 +25,7 @@ class Board:
         nrows_df = self.df.shape[0]
 
         for r in range(nrows_df):
-            car_data = list(board1.df.iloc[r][:-1])
+            car_data = list(self.df.iloc[r][:-1])
             car = Car(*car_data)
             self.cars[car.name] = car
 
