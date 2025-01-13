@@ -192,4 +192,18 @@ class Board:
         for row in self.board:
             print(row)
 
+    def is_won(self) -> None:
+        """
+        Checks if the game is in winning configuration.
+        The game is won if the red car ('X') reaches the exit.
+        """
+        exit = self.N + 1
 
+        for placement in self.red_car.get_current_coördinates:
+            if placement == exit:
+                print("Congrats")
+                return True
+        
+        return False
+
+                
