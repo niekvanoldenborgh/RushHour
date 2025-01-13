@@ -4,7 +4,7 @@ import numpy as np
 from numpy import var
 import pandas as pd
 import os
-from code.classes.car_class import Car
+from car_class import Car
 
 class Board:
 
@@ -35,6 +35,9 @@ class Board:
 
         # define red car
         self.red_car = self.cars.get("X")
+
+        # create logbook
+        self.logbook: list = []
 
     def create(self):
         """
@@ -112,74 +115,54 @@ class Board:
             self.place(car)
 
 
-    def is_valid(self, car: var, direction: str, blocks: int) -> bool:
+    def is_valid(self, car: var, blocks: int) -> bool:
 
                 # Raise an error when invalid value is given
-        if car.orientation == "H" and direction.upper() not in ("L", "R"):
-            return False
-
-        elif car.orientation == "V" and direction.upper() not in ("U", "D"):
-            return False
 
         # Check if move possible (all blocks are empty)
         for i in range(blocks):
-            if direction.upper() == "L":
-                if self.board[car.row][car.current_coördinates[0][1] - range(1, blocks + 1)[i]] != ".":
+            if car.orientation == "H" and blocks < 0:
+                if self.board[car.row][car.current_coördinates[0][1] - range(1, -blocks + 1)[i]] != ".":
                     return False
-            if direction.upper() == "R":
+            if car.orientation == "H" and blocks > 0:
                 if self.board[car.row][car.current_coördinates[car.length - 1][1] + range(1, blocks+ 1)[i]] != ".":
                     return False
-            if direction.upper() == "U":
-                if self.board[car.current_coördinates[0][0] - range(1, blocks + 1)[i]][car.col] != ".":
+            if car.orientation == "V" and blocks < 0:
+                if self.board[car.current_coördinates[0][0] - range(1, -blocks + 1)[i]][car.col] != ".":
                     return False
-            if direction.upper() == "D":
+            if car.orientation == "V" and blocks > 0:
                 if self.board[car.current_coördinates[car.length - 1][0] + range(1, blocks + 1)[i]][car.col] != ".":
                     return False
 
         return True
 
-    def move(self, car: var, direction: str, blocks: int) -> bool:
+    def move(self, car: var, blocks: int) -> bool:
 
-        # Raise an error when invalid value is given
-        # if car.orientation == "H" and direction.upper() not in ("L", "R"):
-        #     raise ValueError("Direction should be 'L' or 'R' for horizontal cars")
-
-        # elif car.orientation == "V" and direction.upper() not in ("U", "D"):
-        #     raise ValueError("Direction should be 'U' or 'D' for vertical cars")
-
-        # Check if move possible (all blocks are empty)
-        # for i in range(blocks):
-        #     if direction.upper() == "L":
-        #         if self.board[car.row][car.current_coördinates[0][1] - range(1, blocks + 1)[i]] != ".":
-        #             return False
-        #     if direction.upper() == "R":
-        #         if self.board[car.row][car.current_coördinates[car.length - 1][1] + range(1, blocks+ 1)[i]] != ".":
-        #             return False
-        #     if direction.upper() == "U":
-        #         if self.board[car.current_coördinates[0][0] - range(1, blocks + 1)[i]][car.col] != ".":
-        #             return False
-        #     if direction.upper() == "D":
-        #         if self.board[car.current_coördinates[car.length - 1][0] + range(1, blocks + 1)[i]][car.col] != ".":
-        #             return False
-
-        if self.is_valid(car, direction, blocks) == True:
+        if self.is_valid(car, blocks) == True:
 
             # first unplace car from postition
             self.unplace(car)
 
             # move car
             for i in range(car.length):
-                if direction.upper() == "L":
-                    car.current_coördinates[i][1] = car.current_coördinates[i][1] - blocks
-                if direction.upper() == "R":
+                if car.orientation == "H":
                     car.current_coördinates[i][1] = car.current_coördinates[i][1] + blocks
-                if direction.upper() == "U":
-                    car.current_coördinates[i][0] = car.current_coördinates[i][0] - blocks
-                if direction.upper() == "D":
+                if car.orientation == "V":
                     car.current_coördinates[i][0] = car.current_coördinates[i][0] + blocks
 
         self.place(car)
+
+        self.logbook.append({'car': car.name, 'move': blocks})
         return True
+    
+    def save_logbook(self, filename = "logbook.csv"):
+        """
+        Save logbook to csv
+        """
+
+        df = pd.DataFrame(self.logbook)
+        df.to_csv(filename, index = False)
+        print(f"Logbook to saved to {filename}")
 
     def show(self) -> None:
         """
