@@ -4,7 +4,7 @@ import numpy as np
 from numpy import var
 import pandas as pd
 import os
-from car_class import Car
+from code.classes.car_class import Car
 
 class Board:
 
@@ -112,14 +112,14 @@ class Board:
             self.place(car)
 
 
-    def move(self, car: var, direction: str, blocks: int) -> bool:
+    def is_valid(self, car: var, direction: str, blocks: int) -> bool:
 
-        # Raise an error when invalid value is given
+                # Raise an error when invalid value is given
         if car.orientation == "H" and direction.upper() not in ("L", "R"):
-            raise ValueError("Direction should be 'L' or 'R' for horizontal cars")
+            return False
 
         elif car.orientation == "V" and direction.upper() not in ("U", "D"):
-            raise ValueError("Direction should be 'U' or 'D' for vertical cars")
+            return False
 
         # Check if move possible (all blocks are empty)
         for i in range(blocks):
@@ -136,19 +136,47 @@ class Board:
                 if self.board[car.current_coördinates[car.length - 1][0] + range(1, blocks + 1)[i]][car.col] != ".":
                     return False
 
-        # first unplace car from postition
-        self.unplace(car)
+        return True
 
-        # move car
-        for i in range(car.length):
-            if direction.upper() == "L":
-                car.current_coördinates[i][1] = car.current_coördinates[i][1] - blocks
-            if direction.upper() == "R":
-                car.current_coördinates[i][1] = car.current_coördinates[i][1] + blocks
-            if direction.upper() == "U":
-                car.current_coördinates[i][0] = car.current_coördinates[i][0] - blocks
-            if direction.upper() == "D":
-                car.current_coördinates[i][0] = car.current_coördinates[i][0] + blocks
+    def move(self, car: var, direction: str, blocks: int) -> bool:
+
+        # Raise an error when invalid value is given
+        # if car.orientation == "H" and direction.upper() not in ("L", "R"):
+        #     raise ValueError("Direction should be 'L' or 'R' for horizontal cars")
+
+        # elif car.orientation == "V" and direction.upper() not in ("U", "D"):
+        #     raise ValueError("Direction should be 'U' or 'D' for vertical cars")
+
+        # Check if move possible (all blocks are empty)
+        # for i in range(blocks):
+        #     if direction.upper() == "L":
+        #         if self.board[car.row][car.current_coördinates[0][1] - range(1, blocks + 1)[i]] != ".":
+        #             return False
+        #     if direction.upper() == "R":
+        #         if self.board[car.row][car.current_coördinates[car.length - 1][1] + range(1, blocks+ 1)[i]] != ".":
+        #             return False
+        #     if direction.upper() == "U":
+        #         if self.board[car.current_coördinates[0][0] - range(1, blocks + 1)[i]][car.col] != ".":
+        #             return False
+        #     if direction.upper() == "D":
+        #         if self.board[car.current_coördinates[car.length - 1][0] + range(1, blocks + 1)[i]][car.col] != ".":
+        #             return False
+
+        if self.is_valid(car, direction, blocks) == True:
+
+            # first unplace car from postition
+            self.unplace(car)
+
+            # move car
+            for i in range(car.length):
+                if direction.upper() == "L":
+                    car.current_coördinates[i][1] = car.current_coördinates[i][1] - blocks
+                if direction.upper() == "R":
+                    car.current_coördinates[i][1] = car.current_coördinates[i][1] + blocks
+                if direction.upper() == "U":
+                    car.current_coördinates[i][0] = car.current_coördinates[i][0] - blocks
+                if direction.upper() == "D":
+                    car.current_coördinates[i][0] = car.current_coördinates[i][0] + blocks
 
         self.place(car)
         return True
@@ -164,10 +192,4 @@ class Board:
         for row in self.board:
             print(row)
 
-board1 = Board("Rushhour6x6_1.csv")
-board1.create()
-board1.fill()
-board1.show()
 
-carA = board1.cars.get('A')
-board1.move(carA, 'L', 1)
