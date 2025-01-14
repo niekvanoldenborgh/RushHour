@@ -4,7 +4,7 @@ import numpy as np
 from numpy import var
 import pandas as pd
 import os
-from car_class import Car
+from code.classes.car_class import Car
 
 class Board:
 
@@ -26,11 +26,13 @@ class Board:
 
         # Read car data and add to dictionary
         self.cars: dict[var] = {}
+        self.car_names: list[var] = []
         nrows_df = self.df.shape[0]
 
         for r in range(nrows_df):
             car_data = list(self.df.iloc[r][:-1])
             car = Car(*car_data)
+            self.car_names.append(car.name)
             self.cars[car.name] = car
 
         # define red car
@@ -94,8 +96,11 @@ class Board:
 
             # random colours based on car name
             if car.name != 'X':
-                # 56 makes pretty colours :)
-                np.random.seed(ord(car.name) + 56)
+                self.seed_sum = 0
+                for character in car.name:
+                    self.seed_sum = self.seed_sum + ord(character)
+                    # 56 makes pretty colours :)
+                    np.random.seed(self.seed_sum + 56)
                 self.axes_figure.add_patch(Rectangle((y, -x - 1), 1, 1, facecolor = (np.random.uniform(low=0, high=0.75), np.random.uniform(low=0.1, high=1), np.random.uniform(low=0.1, high=1))))
 
             # red car, name 'X', always red
@@ -154,7 +159,7 @@ class Board:
 
         self.logbook.append({'car': car.name, 'move': blocks})
         return True
-    
+
     def save_logbook(self, filename = "logbook.csv"):
         """
         Save logbook to csv
@@ -186,7 +191,7 @@ class Board:
             if placement == exit:
                 print("Congrats")
                 return True
-        
+
         return False
 
-                
+
