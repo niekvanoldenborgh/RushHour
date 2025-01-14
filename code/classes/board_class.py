@@ -122,22 +122,23 @@ class Board:
 
     def is_valid(self, car: var, blocks: int) -> bool:
 
-                # Raise an error when invalid value is given
-
         # Check if move possible (all blocks are empty)
-        for i in range(blocks):
-            if car.orientation == "H" and blocks < 0:
-                if self.board[car.row][car.current_coördinates[0][1] - range(1, -blocks + 1)[i]] != ".":
-                    return False
-            if car.orientation == "H" and blocks > 0:
-                if self.board[car.row][car.current_coördinates[car.length - 1][1] + range(1, blocks+ 1)[i]] != ".":
-                    return False
-            if car.orientation == "V" and blocks < 0:
-                if self.board[car.current_coördinates[0][0] - range(1, -blocks + 1)[i]][car.col] != ".":
-                    return False
-            if car.orientation == "V" and blocks > 0:
-                if self.board[car.current_coördinates[car.length - 1][0] + range(1, blocks + 1)[i]][car.col] != ".":
-                    return False
+        if blocks > 0:
+            for i in range(blocks):
+                if car.orientation == "H":
+                     if self.board[car.row][car.current_coördinates[car.length - 1][1] + range(1, blocks+ 1)[i]] != ".":
+                        return False
+                elif car.orientation == "V":
+                    if self.board[car.current_coördinates[car.length - 1][0] + range(1, blocks + 1)[i]][car.col] != ".":
+                        return False
+        elif blocks < 0:
+            for i in range(-blocks):
+                if car.orientation == "H":
+                    if self.board[car.row][car.current_coördinates[0][1] - range(1, -blocks + 1)[i]] != ".":
+                        return False
+                elif car.orientation == "V":
+                    if self.board[car.current_coördinates[0][0] - range(1, -blocks + 1)[i]][car.col] != ".":
+                        return False
 
         return True
 
@@ -155,10 +156,12 @@ class Board:
                 if car.orientation == "V":
                     car.current_coördinates[i][0] = car.current_coördinates[i][0] + blocks
 
-        self.place(car)
+            self.place(car)
 
-        self.logbook.append({'car': car.name, 'move': blocks})
-        return True
+            self.logbook.append({'car': car.name, 'move': blocks})
+            return True
+        
+        return False
 
     def save_logbook(self, filename = "logbook.csv"):
         """
