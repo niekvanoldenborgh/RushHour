@@ -77,14 +77,14 @@ class Board:
 
         # Locate and place opening on the border
         if self.N % 2 == 0:
-            opening_index = (self.N // 2, self.N + 1)
+            self.opening_index = (self.N // 2, self.N + 1)
         else:
-            opening_index = (self.N // 2 + 1, self.N + 1)
+            self.opening_index = (self.N // 2 + 1, self.N + 1)
 
-        self.board[opening_index[0]][opening_index[1]] = '@'
+        self.board[self.opening_index[0]][self.opening_index[1]] = '@'
 
         # place white square at exit
-        self.axes_figure.add_patch(Rectangle((opening_index[1], -opening_index[0] - 1), 1, 1, facecolor = 'white'))
+        self.axes_figure.add_patch(Rectangle((self.opening_index[1], -self.opening_index[0] - 1), 1, 1, facecolor = 'white'))
 
 
     def place(self, car: var) -> None:
@@ -160,7 +160,7 @@ class Board:
 
             self.logbook.append({'car': car.name, 'move': blocks})
             return True
-        
+
         return False
 
     def save_logbook(self, filename = "logbook.csv"):
@@ -188,9 +188,9 @@ class Board:
         Checks if the game is in winning configuration.
         The game is won if the red car ('X') reaches the exit.
         """
-        exit = self.N + 1
+        exit = [self.opening_index[0], self.opening_index[1] - 1]
 
-        for placement in self.red_car.get_current_coördinates:
+        for placement in self.red_car.get_current_coördinates():
             if placement == exit:
                 print("Congrats")
                 return True
