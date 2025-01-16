@@ -2,11 +2,12 @@ from code.classes.board_class import Board
 import random
 import time
 
-def random_algorithm(board_file):
+def random_algorithm(board_file, runs):
     board1 = Board(board_file)
     board1.create()
     board1.fill()
-    board1.show()
+    # board1.show()
+    print("start")
 
     turn_counter = 0
     while board1.is_won() == False:
@@ -40,14 +41,14 @@ def random_algorithm(board_file):
 
         # relay info on event
         turn_counter += 1
-        print(turn_counter)
-        if turn_counter > 90000:
-            return 99999
+        # print(turn_counter)
 
         # time delay makes it visible in terminal
         # time.sleep(0.005)
-
+    print(turn_counter)
     board1.show()
+    board1.save_logbook(filename = f"logbook{runs}.csv")
+    print("stop")
     return turn_counter
 
 
@@ -58,5 +59,14 @@ third run: terminated at like 100.000 runs
 fourth run: 1583
 fifth run: 7327
 sixth run: 19303
+
+53390
+297702
+154696
+20539
+206907
+26772
+28789
+234601
 """
 
