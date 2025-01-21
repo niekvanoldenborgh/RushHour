@@ -3,10 +3,10 @@ import random
 import time
 
 def random_algorithm(board_file, games):
-    board1 = Board(board_file)
     turn_counter_list = []
 
     for game in range(0, games):
+        board1 = Board(board_file)
         board1.create()
         board1.fill()
         # board1.show()
