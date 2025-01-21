@@ -197,4 +197,29 @@ class Board:
 
         return False
 
+    def get_car_coördinates(self):
+        """
+        Function returning all current coördinates of the cars
+        """
+        car_coördinates = dict()
+        
+        for car in self.cars.values():
+            car_coördinates[car.name] = car.get_current_coördinates()
+
+        return car_coördinates
+
+    def set_board(self, car_coördinates: dict):
+        """
+        Function that sets board to new car coördinates
+        """
+        
+        # Unplace cars and change coördinates
+        for car in self.cars.values():
+            self.unplace(car)
+            car.current_coördinates = car_coördinates[car.name]
+        
+        # Place car in new position
+        for car in self.cars.values():
+            self.place(car)
+
 
