@@ -2,6 +2,8 @@ from code.classes.board_class import Board
 from code.algorithms.baseline import random_algorithm
 from code.algorithms.random_exp import random_algorithm_exp
 from code.functions.game_visualizer import replay_game
+
+# comes with lists 'all_turns_game_[1-7]' of baseline results
 from code.functions.data_analysis import *
 
 if __name__ == "__main__":
