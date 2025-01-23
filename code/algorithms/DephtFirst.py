@@ -2,6 +2,8 @@ from numpy import var
 from code.classes.board_class import Board
 import copy
 import random
+import time
+import pandas as pd
 
 class DepthFirst:
     def __init__(self, board_name: str):
@@ -20,6 +22,10 @@ class DepthFirst:
         self.states_stack = []
         self.visited = set()
         self.visited.add(tuple(sum(self.board.board, [])))
+        self.start_time = time.time()
+        self.path = []
+        self.path_stack = []
+        
     
     def get_neighbours(self):
         """
@@ -33,7 +39,8 @@ class DepthFirst:
                 if self.board.is_valid(car, move):
                     neighbours.append({'car': car.name, 'move': move})
         
-        # shuffle neighbours so algorithm does not always take same 
+        # shuffle neighbours so algorithm does not always take same
+        random.shuffle(neighbours)
 
         return neighbours
     
@@ -57,30 +64,41 @@ class DepthFirst:
             if tuple(sum(board_tmp, [])) not in self.visited:
                 current_coördinates = copy.deepcopy(self.board.get_car_coördinates())
                 self.states_stack.append(current_coördinates)
+                self.path_stack.append(self.path + [(car.name, move)]) 
                 self.visited.add(tuple(sum(board_tmp, [])))
 
             self.board.move(car, -1*move)           
     
     def next_state(self):
         if self.board.is_won():
+            self.elapsed_time = time.time() - self.start_time
             print("Exit found!")
             return True
         
         if self.states_stack:
             new_coördinates = self.states_stack.pop()
+            self.path = self.path_stack.pop()
             self.board.set_board(new_coördinates)
+            
+            
         
         return False
     
+    def get_path_as_csv(self, filename = "output.csv"):
+         """
+         Return moves needed to solve puzzle as csv
+         """
+        # Make list of dictionaries that can be transormed to csv
+         logbook = []
+         for car, move in self.path:
+             logbook.append({"car": car, 'move': move})
+        
+        # Create csv file
+         df = pd.DataFrame(logbook)
+         df.to_csv(filename, index = False)
+         print(f"Logbook to saved to {filename}")
 
-test = DepthFirst("Rushhour6x6_1.csv")
-i=0
-while True:
-    test.get_neighbour_states()
-    print("\n")
-    if test.next_state():
-        break
-    i+=1
-    print(i)
 
+    def get_elapsed_time(self):
+        return self.elapsed_time
 
