@@ -51,7 +51,7 @@ def get_neighbor_states(board, visited):
     
     return neighbor_states
 
-def breadth_first_search(board_file):
+def breadth_first_search(board_file, game):
     """
     Implements breadth-first search to solve the board puzzle.
     """
@@ -67,6 +67,7 @@ def breadth_first_search(board_file):
     initial_state = tuple(sum(board.board, []))  
     visited.add(initial_state)
     queue.append((board.get_car_coördinates(), 0))
+    count = 0
 
     while queue:
         # Get the next state from the queue
@@ -74,13 +75,19 @@ def breadth_first_search(board_file):
         board.set_board(current_state)
         
         if board.is_won():
-            print(f"Moves: {moves}, Time: {time.time() - start_time:.2f} seconds, {board.show()}")
+            print(f"Moves: {moves}, Time: {time.time() - start_time:.2f} seconds, {board.show()}, count: {count}")
+            board.save_logbook(filename = f"logbook{game}.csv")
             return
 
         # Get all valid neighbor states
         neighbors = get_neighbor_states(board, visited)
         for neighbor_state in neighbors:
             queue.append((neighbor_state, moves + 1))
+            count += 1
+            print(f"{moves}")
+
+        if moves == 60:
+            return print(f"Reached depth of 60, {board.show()}")
     
     # If no solution is found
     return ("No solution exists")
