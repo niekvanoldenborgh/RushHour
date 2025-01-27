@@ -2,6 +2,8 @@ from code.classes.board_class import Board
 from collections import deque
 import copy
 import time
+import random
+import pandas as pd
 
 def initialize_board(board_file):
     """
@@ -24,6 +26,12 @@ def get_neighbors(board):
             if board.is_valid(car, move):
                 neighbors.append({'car': car.name, 'move': move})
     
+    #Resorting the neighbors list randomly
+    neighbors = sorted(neighbors, key=lambda _: random.random())
+    
+    #Prune the least promising 1/3
+    prune_count = len(neighbors) // 2
+    neighbors = neighbors [:-prune_count]
     return neighbors
 
 def get_neighbor_states(board, visited):
@@ -43,7 +51,7 @@ def get_neighbor_states(board, visited):
 
         # Check if the state is unvisited
         if tuple(sum(board_tmp, [])) not in visited:
-            neighbor_states.append(copy.deepcopy(board.get_car_coördinates()))
+            neighbor_states.append((copy.deepcopy(board.get_car_coördinates()), (car.name, move)))
             visited.add(tuple(sum(board_tmp, [])))
 
         # Undo the move
@@ -51,7 +59,7 @@ def get_neighbor_states(board, visited):
     
     return neighbor_states
 
-def breadth_first_search(board_file, game):
+def breadth_first_search(board_file, game, results):
     """
     Implements breadth-first search to solve the board puzzle.
     """
@@ -66,31 +74,43 @@ def breadth_first_search(board_file, game):
     # Add the initial board state to the queue
     initial_state = tuple(sum(board.board, []))  
     visited.add(initial_state)
-    queue.append((board.get_car_coördinates(), 0))
-    count = 0
+    queue.append((board.get_car_coördinates(), 0, []))
 
     while queue:
         # Get the next state from the queue
-        current_state, moves = queue.popleft()
+        current_state, moves, path = queue.popleft()
         board.set_board(current_state)
         
         if board.is_won():
-            print(f"Moves: {moves}, Time: {time.time() - start_time:.2f} seconds, {board.show()}, count: {count}")
-            board.save_logbook(filename = f"logbook{game}.csv")
-            return
+            print(f"Moves: {moves}, Time: {time.time() - start_time:.2f} seconds")
+            results.append({'moves': moves, 'time_taken': time.time() - start_time})
+            get_path_as_csv(path)
+            return results
 
         # Get all valid neighbor states
         neighbors = get_neighbor_states(board, visited)
-        for neighbor_state in neighbors:
-            queue.append((neighbor_state, moves + 1))
-            count += 1
-            print(f"{moves}")
+        for neighbor_state, details in neighbors:
+            queue.append((neighbor_state, moves + 1, path + [details]))
 
         if moves == 60:
             return print(f"Reached depth of 60, {board.show()}")
     
     # If no solution is found
     return ("No solution exists")
+
+def get_path_as_csv(path, filename = "output.csv"):
+    """
+    Return moves needed to solve puzzle as csv
+    """
+    # Make list of dictionaries that can be transormed to csv
+    logbook = []
+    for car, move in path:
+        logbook.append({"car": car, 'move': move})
+        
+    # Create csv file
+    df = pd.DataFrame(logbook)
+    df.to_csv(filename, index = False)
+    return print(f"Logbook to saved to {filename}")
 
 
 
