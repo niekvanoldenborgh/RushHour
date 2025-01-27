@@ -22,7 +22,6 @@ class DepthFirst:
         self.states_stack = []
         self.visited = set()
         self.visited.add(tuple(sum(self.board.board, [])))
-        self.start_time = time.time()
         self.path = []
         self.path_stack = []
         
@@ -71,7 +70,6 @@ class DepthFirst:
     
     def next_state(self):
         if self.board.is_won():
-            self.elapsed_time = time.time() - self.start_time
             print("Exit found!")
             return True
         
@@ -80,8 +78,6 @@ class DepthFirst:
             self.path = self.path_stack.pop()
             self.board.set_board(new_coördinates)
             
-            
-        
         return False
     
     def get_path_as_csv(self, filename = "output.csv"):
@@ -97,8 +93,17 @@ class DepthFirst:
          df = pd.DataFrame(logbook)
          df.to_csv(filename, index = False)
          print(f"Logbook to saved to {filename}")
+    
+    def dfs(self):
+        start_time = round(time.time() ,2)
+        self.get_neighbour_states()
+        success = self.next_state()
 
-
-    def get_elapsed_time(self):
-        return self.elapsed_time
+        while not success:
+            self.get_neighbour_states()
+            success = self.next_state()
+        
+        elapsed_time = round(time.time(), 2) - start_time
+        moves = len(self.path)
+        print(f"Game completed in {round(elapsed_time, 2)}s, path contains {moves} moves")
 
