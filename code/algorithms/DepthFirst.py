@@ -24,7 +24,6 @@ class DepthFirst:
         self.visited.add(tuple(sum(self.board.board, [])))
         self.path = []
         self.path_stack = []
-        
     
     def get_neighbours(self):
         """
@@ -80,6 +79,7 @@ class DepthFirst:
             
         return False
     
+    
     def get_path_as_csv(self, filename = "output.csv"):
          """
          Return moves needed to solve puzzle as csv
@@ -94,8 +94,8 @@ class DepthFirst:
          df.to_csv(filename, index = False)
          print(f"Logbook to saved to {filename}")
     
-    def dfs(self):
-        start_time = round(time.time() ,2)
+    def dfs(self, game):
+        start_time = time.time()
         self.get_neighbour_states()
         success = self.next_state()
 
@@ -103,7 +103,13 @@ class DepthFirst:
             self.get_neighbour_states()
             success = self.next_state()
         
-        elapsed_time = round(time.time(), 2) - start_time
         moves = len(self.path)
-        print(f"Game completed in {round(elapsed_time, 2)}s, path contains {moves} moves")
+        print(f"Moves: {moves}, Time: {time.time() - start_time:.2f} seconds, {self.board.show()}, Game: {game}")
+
+def depth_first_search(boardname, number_of_games):
+    game = 1 
+    while game <= number_of_games:
+        rush = DepthFirst(boardname)
+        rush.dfs(game)
+        game += 1
 
