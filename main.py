@@ -95,7 +95,7 @@ if __name__ == "__main__":
     algorithm_input = input("Please choose a number:\n")
 
     if algorithm_input == "1":
-        random_algorithm(board_file, 1)
+        random_algorithm(board_file, n_times_input)
     elif algorithm_input == "2":
 
         if game_time_limit_ind and overall_time_limit_ind:
