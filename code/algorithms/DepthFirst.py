@@ -24,6 +24,7 @@ class DepthFirst:
         self.visited.add(tuple(sum(self.board.board, [])))
         self.path = []
         self.path_stack = []
+        
     
     def get_neighbours(self):
         """
@@ -79,7 +80,9 @@ class DepthFirst:
             
         return False
     
-    
+    def get_depth(self):
+        return len(self.path)
+        
     def get_path_as_csv(self, filename = "output.csv"):
          """
          Return moves needed to solve puzzle as csv
@@ -94,22 +97,31 @@ class DepthFirst:
          df.to_csv(filename, index = False)
          print(f"Logbook to saved to {filename}")
     
-    def dfs(self, game):
+    def dfs(self, game, max_time_game = float('inf')):
         start_time = time.time()
         self.get_neighbour_states()
         success = self.next_state()
 
         while not success:
+            # check if time limit is reached
+            if time.time() - start_time >= max_time_game:
+                print(f"Game time limit of {max_time_game} seconds reached. Terminating search.")
+                return
+            
             self.get_neighbour_states()
             success = self.next_state()
-        
+            
         moves = len(self.path)
         print(f"Moves: {moves}, Time: {time.time() - start_time:.2f} seconds, {self.board.show()}, Game: {game}")
 
-def depth_first_search(boardname, number_of_games):
+def depth_first_search(boardname, number_of_games, max_time_game = float('inf'), max_time_overall = float('inf')):
+    start_time = time.time()
     game = 1 
     while game <= number_of_games:
+        if time.time() - start_time >= max_time_overall:
+            print(f"Overall time limit of {max_time_overall} seconds reached. Terminating search.")
+            return
+            
         rush = DepthFirst(boardname)
-        rush.dfs(game)
+        rush.dfs(game, max_time_game)
         game += 1
-
