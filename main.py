@@ -3,6 +3,7 @@ from code.algorithms.baseline import random_algorithm
 from code.functions.game_visualizer import replay_game
 from code.algorithms.BreadthFirst import breadth_first_search
 from code.algorithms.DepthFirst import DepthFirst, depth_first_search
+from code.algorithms.random_algorithm_heuristics import random_algorithm_heuristics
 
 import pandas as pd
 import subprocess
@@ -90,7 +91,7 @@ if __name__ == "__main__":
         overall_time_limit_ind = True
     
     # Ask user which algorthm to use
-    print("Choose an algorithm to solve the board:\n 1. Random search\n 2. Breadth first search\n 3. Depth first search")
+    print("Choose an algorithm to solve the board:\n 1. Random search\n 2. Breadth first search\n 3. Depth first search\n 4. Random Algorithm with Heuristics (Note: Has a default time limit)")
     algorithm_input = input("Please choose a number:\n")
 
     if algorithm_input == "1":
@@ -126,6 +127,17 @@ if __name__ == "__main__":
         df = pd.DataFrame(result)
         df.to_csv('dfs_results.csv', index=False)
         print("Results saved to dfs_results.csv")
+
+    elif algorithm_input == "4":
+
+        if game_time_limit_ind and overall_time_limit_ind:
+            result = random_algorithm_heuristics(board_file, 50000, n_times_input, overall_time_limit, game_time_limit)
+        elif game_time_limit_ind and not overall_time_limit_ind:
+            result = random_algorithm_heuristics(board_file, 50000, n_times_input, max_game_time = game_time_limit)
+        elif not game_time_limit_ind and overall_time_limit_ind:
+            result = random_algorithm_heuristics(board_file, 50000, n_times_input, max_run_time = overall_time_limit)
+        else:
+            result = random_algorithm_heuristics(board_file, 50000, n_times_input)
         
     else: 
         print("Invalid choice. Please choose a number.")
