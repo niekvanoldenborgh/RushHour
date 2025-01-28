@@ -3,17 +3,17 @@
 Rush Hour is een spel waarbij het doel is om op een bord met voertuigen de rode auto naar de uitgang te rijden. Het bord is vierkant en opgebouwd uit vakjes. Er zijn twee verschillende soorten voertuigen, een auto, welke twee vakjes in beslag neemt en een vrachtwagen, welke drie vakjes in beslag neemt. Een voertuig kan alleen in de richting bewegen waarop deze georienteerd is. Een horizontaal geplaatst voertuig kan dus niet in de verticale richting bewegen. Diagonale bewegingen zijn ook niet toegestaan en voertuigen mogen niet door elkaar heen bewegen. Er zijn drie verschillende bordgroottes, 6x6, 9x9 en 12x12, zoals hieronder geïllustreerd. 
 
 Bordgrootte 6x6: 
-<img src="/code/visuals/board_pictures/Rushhour6x6_1">
-<img src="/code/visuals/board_pictures/Rushhour6x6_2">
-<img src="/code/visuals/board_pictures/Rushhour6x6_3">
+<img src="/visuals/board_pictures/Rushhour6x6_1.jpg">
+<img src="/visuals/board_pictures/Rushhour6x6_2.jpg">
+<img src="/visuals/board_pictures/Rushhour6x6_3.jpg">
 
 Bordgrootte 9x9: 
-<img src="/code/visuals/board_pictures/Rushhour9x9_1">
-<img src="/code/visuals/board_pictures/Rushhour9x9_2">
-<img src="/code/visuals/board_pictures/Rushhour9x9_3">
+<img src="/visuals/board_pictures/Rushhour9x9_1.jpg">
+<img src="/visuals/board_pictures/Rushhour9x9_2.jpg">
+<img src="/visuals/board_pictures/Rushhour9x9_3.jpg">
 
 Bordgroote 12x12:
-<img src="/code/visuals/board_pictures/Rushhour12x12_1">
+<img src="/visuals/board_pictures/Rushhour12x12_1.jpg">
 
 Zoals eerder genoemd is het doel om de rode auto naar de uitgang te rijden en zo het spel op te lossen. Hiervoor zijn drie verschillende algoritmen geïmplementeerd: 
 - Random algoritme
@@ -47,6 +47,20 @@ Je krijgt dan het volgende te zien:
 
 > Please choose a number:
 
+Vul bij de volgende regel in hoe vaak het spel moet runnen:
+
+> How many times would you like to play?
+
+There are several options to set a time limit:
+
+> Would you like to add a time limit?
+> 1. No time limit
+> 2. Only time limit per game
+> 3. Only overall time limit
+> 4. Both overall time limit and time limit per game
+
+>Please choose a number:
+
 Vul hier het cijfer in van het bord dat je wilt oplossen. Je komt dan bij het volgende menu:
 
 > Choose an algorithm to solve the board:
@@ -62,11 +76,11 @@ Hier vul je het cijfer in van het algoritme dat je wilt toepassen.
 
 Onderstaande lijst geeft de structuur van de code base weer:
 - /code: bevat alle code van het project
-    - /code/algoritms: 
-    - /code/classes: 
-    - /code/functions:
-- /gameboards
-
+    - /code/algoritms: bevat de code voor de algoritmen
+    - /code/classes: bevat de code voor de classes waaruit het spel is opgebouwd
+    - /code/functions: bevat de code voor de visualizatie en analyse
+- /gameboards: bevat de verschillende borden van het spel
+- /results: bevat de resultaten per algoritme
 
 ## Auteurs
 
