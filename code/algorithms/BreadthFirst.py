@@ -25,13 +25,10 @@ def get_neighbors(board):
         for move in moves:
             if board.is_valid(car, move):
                 neighbors.append({'car': car.name, 'move': move})
-    
-    #Resorting the neighbors list randomly
-    neighbors = sorted(neighbors, key=lambda _: random.random())
-    
-    #Prune the least promising 1/3
-    prune_count = len(neighbors) // 2
-    neighbors = neighbors [:-prune_count]
+
+    # random.shuffle(neighbors)
+    # prune = len(neighbors) // 2
+    # neighbors = neighbors [:prune]
     return neighbors
 
 def get_neighbor_states(board, visited):
@@ -39,6 +36,8 @@ def get_neighbor_states(board, visited):
     Generates all neighboring states based on possible moves and adds them to the queue.
     """
     neighbors = get_neighbors(board)
+    if not neighbors:
+        print('No neighbours')
     neighbor_states = []
 
     for neighbor in neighbors:
@@ -49,9 +48,10 @@ def get_neighbor_states(board, visited):
         board.move(car, move)
         board_tmp = copy.deepcopy(board.board)
 
-        # Check if the state is unvisited
         if tuple(sum(board_tmp, [])) not in visited:
             neighbor_states.append((copy.deepcopy(board.get_car_coördinates()), (car.name, move)))
+
+            # TODO: Explain
             visited.add(tuple(sum(board_tmp, [])))
 
         # Undo the move
@@ -92,11 +92,11 @@ def breadth_first_search(board_file, game, results):
         for neighbor_state, details in neighbors:
             queue.append((neighbor_state, moves + 1, path + [details]))
 
-        if moves == 60:
-            return print(f"Reached depth of 60, {board.show()}")
+        # if moves == 60:
+        #     return print(f"Reached depth of 60, {board.show()}")
     
     # If no solution is found
-    return ("No solution exists")
+    return results
 
 def get_path_as_csv(path, filename = "output.csv"):
     """
