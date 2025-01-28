@@ -4,6 +4,24 @@ import random
 import time
 
 def random_algorithm_heuristics(board_file: str, depth: int, max_runs: int, max_run_time: int = 600, max_game_time: int = 60) -> None:
+    """
+    Takes a board file, a desired maximum turns, a maximum runs of the algorithm, 
+    and optional arguments for limited runtime of the function or individual games.
+    This algorithm selects random vehicles and moves them in random directions
+    until victory is achieved. When victory is achieved, it will then try to play
+    the next game in a lower amount of turns than the game before it, 
+    until the timer runs out.
+
+    Args:
+        board_file (str): The name of a board in the gameboards directory.
+        depth (int): The desired maximum turns per game.
+        max_runs (int): The desired amount of times the algorithm will run.
+        max_run_time (int): The amount of time the algorithm is allowed to run (Default = 600s).
+        max_game_time (int): The amount of time each game is allowed to last (Default = 60s).
+
+    Returns:
+        None
+    """
 
     # amount of times the algorithm runs
     for run in range(0, max_runs):
