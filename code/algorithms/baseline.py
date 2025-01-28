@@ -1,24 +1,25 @@
 from code.classes.board_class import Board
 import random
-import time
 
-def random_algorithm(board_file, games):
-    turn_counter_list = []
+def random_algorithm(board_file: str, games: int) -> None:
 
+    board1 = Board(board_file)
+    turn_counter_list: list = []
+
+    # initiate board
     for game in range(0, games):
-        board1 = Board(board_file)
         board1.create()
         board1.fill()
-        # board1.show()
-        print("start")
 
-        turn_counter = 0
+        turn_counter: int = 0
+
+        # play until game won
         while board1.is_won() == False:
 
             # select random car based on the length of list of car names
             selected_car = board1.cars.get(board1.car_names[random.randint(0, len(board1.car_names) - 1)])
-
             car_moved = False
+
             # keep trying until a car moves
             while car_moved == False:
 
@@ -42,9 +43,7 @@ def random_algorithm(board_file, games):
 
             turn_counter += 1
 
+        # save data
         print(turn_counter)
         turn_counter_list.append(turn_counter)
-        board1.show()
         board1.save_logbook(filename = f"logbook{game}.csv")
-        print("stop")
-    return turn_counter_list
