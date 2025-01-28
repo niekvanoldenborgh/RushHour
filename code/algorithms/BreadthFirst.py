@@ -64,6 +64,7 @@ def breadth_first_search(board_file, n_games, max_time_game = float('inf'), max_
     Implements breadth-first search to solve the board puzzle.
     """
     start_time_overall = time.time()
+    results = []
     
     for game in range(1, n_games + 1):
         if time.time() - start_time_overall >= max_time_overall:
