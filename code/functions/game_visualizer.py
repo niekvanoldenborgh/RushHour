@@ -4,7 +4,18 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import numpy as np
 
-def replay_game(board_file, log_file):
+def replay_game(board_file: str, log_file: str) -> None:
+    """
+    Takes a board file and a corresponding log file
+    and replays a game, saving each turn as an image.
+
+    Args:
+        board_file (str): The name of the board played on.
+        log_file (str): The name of the logbook of a game on said board.
+
+    Returns:
+        None
+    """
 
     # read the log
     df_log = pd.read_csv(log_file, sep=',')
