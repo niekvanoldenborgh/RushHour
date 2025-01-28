@@ -83,7 +83,7 @@ def random_algorithm_heuristics(board_file: str, depth: int, max_runs: int, max_
 
                 # if max time reached, save data and time out
                 if time.time() - game_time > max_game_time:
-                    print("timeout")
+                    print("Complete")
                     df = pd.DataFrame(turn_counter_list)
                     df.to_csv(f"results_{run + 1}.csv", index = False)
                     timeout = True
@@ -95,7 +95,7 @@ def random_algorithm_heuristics(board_file: str, depth: int, max_runs: int, max_
                 print(f"{round(time.time() - game_time, 2)} seconds played")
                 turn_counter_list.append({'turns': turn_counter, 'time': round(time.time() - game_time, 2), 'total_time': round(time.time() - total_time, 2)})
                 max_depth = turn_counter
-                board.save_logbook(filename = f"logbook_{run + 1}_{turn_counter}_turns.csv")
+                board.save_logbook(filename = f"logbook_{run + 1}.csv")
 
         # save the results
         df = pd.DataFrame(turn_counter_list)

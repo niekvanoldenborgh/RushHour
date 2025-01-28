@@ -101,27 +101,40 @@ class DepthFirst:
         start_time = time.time()
         self.get_neighbour_states()
         success = self.next_state()
+        results = []
 
         while not success:
             # check if time limit is reached
             if time.time() - start_time >= max_time_game:
                 print(f"Game time limit of {max_time_game} seconds reached. Terminating search.")
-                return
+                return None
             
             self.get_neighbour_states()
             success = self.next_state()
             
         moves = len(self.path)
         print(f"Moves: {moves}, Time: {time.time() - start_time:.2f} seconds, {self.board.show()}, Game: {game}")
+        results.append({"moves": moves, "time (sec)": round(time.time() - start_time, 2), "game": game})
+        
+        return results
 
 def depth_first_search(boardname, number_of_games, max_time_game = float('inf'), max_time_overall = float('inf')):
     start_time = time.time()
-    game = 1 
+    game = 1
+    results = []
+    
+    
     while game <= number_of_games:
         if time.time() - start_time >= max_time_overall:
             print(f"Overall time limit of {max_time_overall} seconds reached. Terminating search.")
-            return
-            
+            return results
+        
+           
         rush = DepthFirst(boardname)
-        rush.dfs(game, max_time_game)
+        game_results = rush.dfs(game, max_time_game)
+        if game_results is not None:
+            results.extend(game_results)
+            
         game += 1
+    
+    return results
