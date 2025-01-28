@@ -15,7 +15,7 @@ Bordgrootte 9x9:
 Bordgroote 12x12:
 <img src="/visuals/board_pictures/Rushhour12x12_1.jpg" width = 20%>
 
-Zoals eerder genoemd is het doel om de rode auto naar de uitgang te rijden en zo het spel op te lossen. Hiervoor zijn drie verschillende algoritmen geïmplementeerd: 
+Zoals eerder genoemd is het doel om de rode auto naar de uitgang te rijden en zo het spel op te lossen. Hiervoor zijn vier verschillende algoritmen geïmplementeerd: 
 - Random algoritme
 - Random algoritme met heuristieken
 - Breadth first search algoritme
@@ -67,6 +67,7 @@ Vul hier het cijfer in van het bord dat je wilt oplossen. Je komt dan bij het vo
 > 1. Random search
 > 2. Breadth first search
 > 3. Depth first search
+> 4. Random search with Heuristics
 
 >Please choose a number:
 
