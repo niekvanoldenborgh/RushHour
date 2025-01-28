@@ -133,7 +133,7 @@ def depth_first_search(boardname, number_of_games, max_time_game = float('inf'),
         rush = DepthFirst(boardname)
         game_results = rush.dfs(game, max_time_game)
         if game_results is not None:
-            results.append(game_results)
+            results.extend(game_results)
             
         game += 1
     
