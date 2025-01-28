@@ -26,9 +26,6 @@ def get_neighbors(board):
             if board.is_valid(car, move):
                 neighbors.append({'car': car.name, 'move': move})
 
-    random.shuffle(neighbors)
-    prune = len(neighbors) // 2
-    neighbors = neighbors [:prune]
     return neighbors
 
 def get_neighbor_states(board, visited):
