@@ -59,14 +59,15 @@ if __name__ == "__main__":
     if algorithm_input == "1":
         random_algorithm(board_file, 1)
     elif algorithm_input == "2":
-        start = time.time()
-        n_runs = 0
-        results = []  # Initialize a list to store results
 
-        while time.time() - start < 1800: # Run for 1 hour
-            print(f"Run {n_runs}")
-            result = breadth_first_search(board_file, 1, results)
-            n_runs += 1
+        if game_time_limit_ind and overall_time_limit_ind:
+            result = breadth_first_search(board_file, n_times_input, game_time_limit, overall_time_limit)
+        elif game_time_limit_ind and not overall_time_limit_ind:
+            result = breadth_first_search(board_file, n_times_input, max_time_game = game_time_limit)
+        elif not game_time_limit_ind and overall_time_limit_ind:
+            result = breadth_first_search(board_file, n_times_input, max_time_overall = overall_time_limit)
+        else:
+            result = breadth_first_search(board_file, n_times_input)
 
         # Save results to CSV after all runs
         df = pd.DataFrame(result)
