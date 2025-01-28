@@ -59,7 +59,7 @@ def get_neighbor_states(board, visited):
     
     return neighbor_states
 
-def breadth_first_search(board_file, n_games, max_time_game = float('inf'), max_time_overall = float('inf')`, results):
+def breadth_first_search(board_file, n_games, max_time_game = float('inf'), max_time_overall = float('inf')):
     """
     Implements breadth-first search to solve the board puzzle.
     """

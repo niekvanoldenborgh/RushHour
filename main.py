@@ -77,13 +77,18 @@ if __name__ == "__main__":
     elif algorithm_input == "3":
         
         if game_time_limit_ind and overall_time_limit_ind:
-            depth_first_search(board_file, n_times_input, game_time_limit, overall_time_limit)
+            result = depth_first_search(board_file, n_times_input, game_time_limit, overall_time_limit)
         elif game_time_limit_ind and not overall_time_limit_ind:
-            depth_first_search(board_file, n_times_input, max_time_game = game_time_limit)
+            result = depth_first_search(board_file, n_times_input, max_time_game = game_time_limit)
         elif not game_time_limit_ind and overall_time_limit_ind:
-            depth_first_search(board_file, n_times_input, max_time_overall = overall_time_limit)
+            result = depth_first_search(board_file, n_times_input, max_time_overall = overall_time_limit)
         else:
-            depth_first_search(board_file, n_times_input)
+            result = depth_first_search(board_file, n_times_input)
+
+        # Save results to CSV after all runs
+        df = pd.DataFrame(result)
+        df.to_csv('dfs_results.csv', index=False)
+        print("Results saved to dfs_results.csv")
         
     else: 
         print("Invalid choice. Please choose a number.")
