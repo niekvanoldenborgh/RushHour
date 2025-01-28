@@ -26,9 +26,9 @@ def get_neighbors(board):
             if board.is_valid(car, move):
                 neighbors.append({'car': car.name, 'move': move})
 
-    # random.shuffle(neighbors)
-    # prune = len(neighbors) // 2
-    # neighbors = neighbors [:prune]
+    random.shuffle(neighbors)
+    prune = len(neighbors) // 2
+    neighbors = neighbors [:prune]
     return neighbors
 
 def get_neighbor_states(board, visited):
@@ -69,7 +69,7 @@ def breadth_first_search(board_file, n_games, max_time_game = float('inf'), max_
     for game in range(1, n_games + 1):
         if time.time() - start_time_overall >= max_time_overall:
             print(f"Overall time limit of {max_time_overall} seconds reached. Terminating search.")
-            return
+            return results
         
         # Initialize the board
         board = initialize_board(board_file)
@@ -88,7 +88,7 @@ def breadth_first_search(board_file, n_games, max_time_game = float('inf'), max_
         while queue:
             if time.time() - start_time_game >= max_time_game:
                 print(f"Game time limit of {max_time_game} seconds reached. Terminating search.")
-                break
+                return results
             
             # Get the next state from the queue
             current_state, moves, path = queue.popleft()
