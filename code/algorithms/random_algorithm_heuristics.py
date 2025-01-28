@@ -12,9 +12,9 @@ would maybe be nice to have a .csv
 that also recounts all the [tunrs, time] from the session
 """
 
-def random_algorithm_heuristics(board_file, depth, games):
+def random_algorithm_heuristics(board_file, depth, max_games, max_run_time = 600, max_game_time = 60):
     # total amount of games played
-    for game in range(0, games):
+    for game in range(0, max_games):
         turn_counter_list = []
         total_time = time.time()
         max_depth = depth
@@ -23,7 +23,7 @@ def random_algorithm_heuristics(board_file, depth, games):
         timeout = False
 
         # while below allowed runtime and it hasnt timed out
-        while time.time() - total_time < 600 and timeout == False:
+        while time.time() - total_time < max_run_time and timeout == False:
 
             # initiate board
             board1 = Board(board_file)
@@ -71,7 +71,7 @@ def random_algorithm_heuristics(board_file, depth, games):
                         board1.fill()
 
                 # if max time reached, time out
-                if time.time() - game_time > 30:
+                if time.time() - game_time > max_game_time:
                     print("timeout")
                     df = pd.DataFrame(turn_counter_list)
                     df.to_csv(f"results_{game + 1}.csv", index = False)
