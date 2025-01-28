@@ -3,78 +3,71 @@ import pandas as pd
 import random
 import time
 
-"""
-how to go about analysing the data?
-we could take an average amount of time to get a sub [x] score?
-that might be good actually
+def random_algorithm_heuristics(board_file: str, depth: int, max_runs: int, max_run_time: int = 600, max_game_time: int = 60) -> None:
 
-would maybe be nice to have a .csv
-that also recounts all the [tunrs, time] from the session
-"""
+    # amount of times the algorithm runs
+    for run in range(0, max_runs):
+        turn_counter_list: list = []
+        total_time: float = time.time()
 
-def random_algorithm_heuristics(board_file, depth, max_games, max_run_time = 600, max_game_time = 60):
-    # total amount of games played
-    for game in range(0, max_games):
-        turn_counter_list = []
-        total_time = time.time()
+        # maximum turns
         max_depth = depth
 
-        # set timeout to false to start the running
-        timeout = False
+        # make sure timeout is false to clear next loops
+        timeout: bool = False
 
-        # while below allowed runtime and it hasnt timed out
+        # stop when max_run_time is reached or has timed out
         while time.time() - total_time < max_run_time and timeout == False:
 
             # initiate board
-            board1 = Board(board_file)
+            board: Board = Board(board_file)
             game_time = time.time()
-            board1.create()
-            board1.fill()
-            # print("start")
+            board.create()
+            board.fill()
+            turn_counter: int = 0
 
-            turn_counter = 0
-
-            # while game isnt won and hasnt timed out
-            while board1.is_won() == False and timeout == False:
+            # stop when game is won or has timed out
+            while board.is_won() == False and timeout == False:
 
                 # select random car based on the length of list of car names
-                selected_car = board1.cars.get(board1.car_names[random.randint(0, len(board1.car_names) - 1)])
-
+                selected_car = board.cars.get(board.car_names[random.randint(0, len(board.car_names) - 1)])
                 car_moved = False
+
                 # keep trying until a car moves
                 while car_moved == False:
 
                     # if only one direction is available, move in that direction
-                    if board1.is_valid(selected_car, 1) == True and board1.is_valid(selected_car, -1) == False:
-                        board1.move(selected_car, 1)
+                    if board.is_valid(selected_car, 1) == True and board.is_valid(selected_car, -1) == False:
+                        board.move(selected_car, 1)
                         car_moved = True
 
-                    elif board1.is_valid(selected_car, 1) == False and board1.is_valid(selected_car, -1) == True:
-                        board1.move(selected_car, -1)
+                    elif board.is_valid(selected_car, 1) == False and board.is_valid(selected_car, -1) == True:
+                        board.move(selected_car, -1)
                         car_moved = True
 
                     # if both directions are available, move in random direction
-                    elif board1.is_valid(selected_car, 1) == True and board1.is_valid(selected_car, -1) == True:
-                        board1.move(selected_car, random.choice([-1,1]))
+                    elif board.is_valid(selected_car, 1) == True and board.is_valid(selected_car, -1) == True:
+                        board.move(selected_car, random.choice([-1,1]))
                         car_moved = True
 
                     # if neither direction is available, select a different car
-                    elif board1.is_valid(selected_car, 1) == False and board1.is_valid(selected_car, -1) == False:
-                        selected_car = board1.cars.get(board1.car_names[random.randint(0, len(board1.car_names) - 1)])
+                    elif board.is_valid(selected_car, 1) == False and board.is_valid(selected_car, -1) == False:
+                        selected_car = board.cars.get(board.car_names[random.randint(0, len(board.car_names) - 1)])
 
                 turn_counter += 1
-                # if max depth reached, restart
+
+                # if max depth reached, restart game
                 if turn_counter > max_depth:
                         turn_counter = 0
-                        board1 = Board(board_file)
-                        board1.create()
-                        board1.fill()
+                        board = Board(board_file)
+                        board.create()
+                        board.fill()
 
-                # if max time reached, time out
+                # if max time reached, save data and time out
                 if time.time() - game_time > max_game_time:
                     print("timeout")
                     df = pd.DataFrame(turn_counter_list)
-                    df.to_csv(f"results_{game + 1}.csv", index = False)
+                    df.to_csv(f"results_{run + 1}.csv", index = False)
                     timeout = True
 
 
@@ -84,8 +77,8 @@ def random_algorithm_heuristics(board_file, depth, max_games, max_run_time = 600
                 print(f"{round(time.time() - game_time, 2)} seconds played")
                 turn_counter_list.append({'turns': turn_counter, 'time': round(time.time() - game_time, 2), 'total_time': round(time.time() - total_time, 2)})
                 max_depth = turn_counter
-                board1.save_logbook(filename = f"logbook_{game + 1}_{turn_counter}_turns.csv")
+                board.save_logbook(filename = f"logbook_{run + 1}_{turn_counter}_turns.csv")
 
         # save the results
         df = pd.DataFrame(turn_counter_list)
-        df.to_csv(f"results_{game + 1}.csv", index = False)
+        df.to_csv(f"results_{run + 1}.csv", index = False)
