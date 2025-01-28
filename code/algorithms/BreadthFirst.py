@@ -59,43 +59,51 @@ def get_neighbor_states(board, visited):
     
     return neighbor_states
 
-def breadth_first_search(board_file, game, results):
+def breadth_first_search(board_file, n_games, max_time_game = float('inf'), max_time_overall = float('inf')`, results):
     """
     Implements breadth-first search to solve the board puzzle.
     """
-    # Initialize the board
-    board = initialize_board(board_file)
-    start_time = time.time()
-
-    # Initialize queue and visited set
-    queue = deque()
-    visited = set()
-
-    # Add the initial board state to the queue
-    initial_state = tuple(sum(board.board, []))  
-    visited.add(initial_state)
-    queue.append((board.get_car_coördinates(), 0, []))
-
-    while queue:
-        # Get the next state from the queue
-        current_state, moves, path = queue.popleft()
-        board.set_board(current_state)
-        
-        if board.is_won():
-            print(f"Moves: {moves}, Time: {time.time() - start_time:.2f} seconds")
-            results.append({'moves': moves, 'time_taken': time.time() - start_time})
-            get_path_as_csv(path)
-            return results
-
-        # Get all valid neighbor states
-        neighbors = get_neighbor_states(board, visited)
-        for neighbor_state, details in neighbors:
-            queue.append((neighbor_state, moves + 1, path + [details]))
-
-        # if moves == 60:
-        #     return print(f"Reached depth of 60, {board.show()}")
+    start_time_overall = time.time()
     
-    # If no solution is found
+    for game in range(1, n_games + 1):
+        if time.time() - start_time_overall >= max_time_overall:
+            print(f"Overall time limit of {max_time_overall} seconds reached. Terminating search.")
+            return
+        
+        # Initialize the board
+        board = initialize_board(board_file)
+
+        # Initialize queue and visited set
+        queue = deque()
+        visited = set()
+
+        # Add the initial board state to the queue
+        initial_state = tuple(sum(board.board, []))  
+        visited.add(initial_state)
+        queue.append((board.get_car_coördinates(), 0, []))
+            
+        start_time_game = time.time()
+            
+        while queue:
+            if time.time() - start_time_game >= max_time_game:
+                print(f"Game time limit of {max_time_game} seconds reached. Terminating search.")
+                break
+            
+            # Get the next state from the queue
+            current_state, moves, path = queue.popleft()
+            board.set_board(current_state)
+            
+            if board.is_won():
+                print(f"Moves: {moves}, Time: {time.time() - start_time_game:.2f} seconds, Game: {game}")
+                results.append({'moves': moves, 'time_taken': time.time() - start_time_game})
+                get_path_as_csv(path)
+                break
+
+            # Get all valid neighbor states
+            neighbors = get_neighbor_states(board, visited)
+            for neighbor_state, details in neighbors:
+                queue.append((neighbor_state, moves + 1, path + [details]))
+            
     return results
 
 def get_path_as_csv(path, filename = "output.csv"):
