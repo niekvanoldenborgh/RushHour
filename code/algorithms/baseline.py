@@ -2,7 +2,19 @@ from code.classes.board_class import Board
 import random
 
 def random_algorithm(board_file: str, games: int) -> None:
+    """
+    Takes a board file, and a desired amount of games played,
+    and plays that many games of Rush Hour on that board.
+    This algorithm selects random vehicles
+    and moves them in random directions until victory is achieved.
 
+    Args:
+        board_file (str): The name of a board in the gameboards directory.
+        games (int): The desired amount of games.
+
+    Returns:
+        None
+    """
     board1 = Board(board_file)
     turn_counter_list: list = []
 
