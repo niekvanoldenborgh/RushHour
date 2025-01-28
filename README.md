@@ -3,17 +3,17 @@
 Rush Hour is een spel waarbij het doel is om op een bord met voertuigen de rode auto naar de uitgang te rijden. Het bord is vierkant en opgebouwd uit vakjes. Er zijn twee verschillende soorten voertuigen, een auto, welke twee vakjes in beslag neemt en een vrachtwagen, welke drie vakjes in beslag neemt. Een voertuig kan alleen in de richting bewegen waarop deze georienteerd is. Een horizontaal geplaatst voertuig kan dus niet in de verticale richting bewegen. Diagonale bewegingen zijn ook niet toegestaan en voertuigen mogen niet door elkaar heen bewegen. Er zijn drie verschillende bordgroottes, 6x6, 9x9 en 12x12, zoals hieronder geïllustreerd. 
 
 Bordgrootte 6x6: 
-<img src="code/visuals/board_pictures/Rushhour6x6_1">
-<img src="code/visuals/board_pictures/Rushhour6x6_2">
-<img src="code/visuals/board_pictures/Rushhour6x6_3">
+<img src="/code/visuals/board_pictures/Rushhour6x6_1">
+<img src="/code/visuals/board_pictures/Rushhour6x6_2">
+<img src="/code/visuals/board_pictures/Rushhour6x6_3">
 
 Bordgrootte 9x9: 
-<img src="code/visuals/board_pictures/Rushhour9x9_1">
-<img src="code/visuals/board_pictures/Rushhour9x9_2">
-<img src="code/visuals/board_pictures/Rushhour9x9_3">
+<img src="/code/visuals/board_pictures/Rushhour9x9_1">
+<img src="/code/visuals/board_pictures/Rushhour9x9_2">
+<img src="/code/visuals/board_pictures/Rushhour9x9_3">
 
 Bordgroote 12x12:
-<img src="code/visuals/board_pictures/Rushhour12x12_1">
+<img src="/code/visuals/board_pictures/Rushhour12x12_1">
 
 Zoals eerder genoemd is het doel om de rode auto naar de uitgang te rijden en zo het spel op te lossen. Hiervoor zijn drie verschillende algoritmen geïmplementeerd: 
 - Random algoritme
