@@ -39,7 +39,7 @@ bfs_avg = results_2['quality'].mean()
 # Filter results for each algorithm
 results_1['algorithm'] = 'DFS'
 results_2['algorithm'] = 'BFS'
-results_3['algorithm'] = 'Random Heuristic'
+results_3['algorithm'] = 'RH'
 
 # Combine the data for the boxplot (excluding BFS from the boxplot data)
 combined_results = pd.concat([results_1[['quality', 'algorithm']], 
@@ -50,12 +50,12 @@ plt.figure(figsize=(10, 6))
 sns.boxplot(x='algorithm', y='quality', data=combined_results, palette="Set2", width = 0.5)
 
 # Add a horizontal line for the BFS average quality value
-plt.axhline(y=bfs_avg, color='r', linestyle='--', label=f'BFS Avg = {bfs_avg:.2f}')
+plt.axhline(y=bfs_avg, color='r', linestyle='--', label=f'BFS 6x6')
 
 # Add title and labels
-plt.title('Comparison of Quality Across Different Algorithms')
+plt.title('Performance per Algorithm')
 plt.xlabel('Algorithm')
-plt.ylabel('Quality (Sum of Moves + Time)')
+plt.ylabel('Quality (Moves + Time)')
 
 # Add legend
 plt.legend()
