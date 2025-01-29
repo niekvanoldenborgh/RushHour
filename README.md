@@ -21,7 +21,7 @@ Zoals eerder genoemd is het doel om de rode auto naar de uitgang te rijden en zo
 - Random algoritme met heuristieken:
     - Dit is hetzelfde random algoritme, maar dan met heuristieken. Het algoritme wordt gedraaid tot de tijd op is. Elke oplossing moet in een lager aantal zetten gedaan worden dan de vorige oplossing, anders wordt deze niet als oplossing geaccepteert. Door toepassing van de heuristieken kunnen we een betere oplossing vinden.  
 - Breadth first search algoritme:
-    - Het breadth first search algoritme 
+    - Het breadth first search algoritme is aangepast zodat de coordinaten worden opgeslagen in plaats van het hele bord. Dit scheelt ruimte in het geheugen.
 - Depth first search algoritme
     - Het depth first search algoritme is aangepast zodat er meer variatie in de oplossingen komt. Als de neighbors worden gegenereerd om te kijken welke auto's mogelijk kunnen bewegen, dan worden deze gehusseld. Hierdoor doorzoekt het algoritme ook andere takken. 
 
@@ -75,7 +75,7 @@ Vul hier het cijfer in van het bord dat je wilt oplossen. Je komt dan bij het vo
 
 >Please choose a number:
 
-Hier vul je het cijfer in van het algoritme dat je wilt toepassen. 
+Hier vul je het cijfer in van het algoritme dat je wilt toepassen. Door deze keuzemenu's kunnen de experimenten gerund worden. 
 
 ## Structuur
 
