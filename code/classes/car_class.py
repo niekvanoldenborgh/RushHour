@@ -1,23 +1,27 @@
 class Car:
     def __init__(self, name: str, orientation: str, col: int, row: int, length: int) -> None:
-        # set demographics
+        """
+        Set all attributes of a car.
+        """
+        # set name, column, row, length
         self.name = name
         self.col = col
         self.row = row
         self.length = length
         
+        # set orientation (horizontal ot vertical)
         if orientation.upper() not in ("H", "V"):
             raise ValueError("Orientation must be 'H' or 'V'")
         
         self.orientation = orientation.upper()
 
-        # initialize current position
+        # set current position
         self.current_coördinates: list[list] = self.get_initial_coördinates()
 
             
     def get_initial_coördinates(self) -> list[list]:
         """
-        Return initial coördinates of car
+        method to return initial coördinates of a car.
         """
         coördinates = []
 
