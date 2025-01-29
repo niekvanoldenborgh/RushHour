@@ -17,9 +17,13 @@ Bordgroote 12x12:
 
 Zoals eerder genoemd is het doel om de rode auto naar de uitgang te rijden en zo het spel op te lossen. Hiervoor zijn vier verschillende algoritmen geïmplementeerd: 
 - Random algoritme
-- Random algoritme met heuristieken
-- Breadth first search algoritme
+    - Het random algoritme selecteert een auto uit een lijst met auto's en kijkt of deze kan bewegen. Als de auto één kant op kan dan beweegt de auto die kant op. Als de auto twee kanten op kan beweegt de auto een random kant op. Als de auto geen kant op kan selecteert het algoritme een nieuwe auto uit de lijst. 
+- Random algoritme met heuristieken:
+    - Dit is hetzelfde random algoritme, maar dan met heuristieken. Het algoritme wordt gedraaid tot de tijd op is. Elke oplossing moet in een lager aantal zetten gedaan worden dan de vorige oplossing, anders wordt deze niet als oplossing geaccepteert. Door toepassing van de heuristieken kunnen we een betere oplossing vinden.  
+- Breadth first search algoritme:
+    - Het breadth first search algoritme 
 - Depth first search algoritme
+    - Het depth first search algoritme is aangepast zodat er meer variatie in de oplossingen komt. Als de neighbors worden gegenereerd om te kijken welke auto's mogelijk kunnen bewegen, dan worden deze gehusseld. Hierdoor doorzoekt het algoritme ook andere takken. 
 
 ## Installatie
 
