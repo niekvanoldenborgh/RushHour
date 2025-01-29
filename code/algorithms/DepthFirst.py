@@ -106,7 +106,7 @@ class DepthFirst:
         # create csv file
          df = pd.DataFrame(logbook)
          df.to_csv(filename, index = False)
-         print(f"Logbook to saved to {filename}")
+         print(f"Logbook saved to {filename}")
     
     def dfs(self, game, max_time_game = float('inf')):
         """
@@ -135,7 +135,7 @@ class DepthFirst:
         # print and return results
         moves = len(self.path)
         self.get_path_as_csv()
-        board.show()
+        self.board.show()
         print(f"Moves: {moves}, Time: {time.time() - start_time:.2f} seconds, Game: {game}")
         results.append({"moves": moves, "time (sec)": round(time.time() - start_time, 2), "game": game})
         
