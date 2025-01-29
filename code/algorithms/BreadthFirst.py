@@ -2,7 +2,6 @@ from code.classes.board_class import Board
 from collections import deque
 import copy
 import time
-import random
 import pandas as pd
 
 def initialize_board(board_file):
@@ -16,7 +15,7 @@ def initialize_board(board_file):
 
 def get_neighbors(board):
     """
-    Generates all possible moves or neighbors from the current board state
+    Generates all possible moves or neighbors from the current board state.
     """
     moves = [1, -1]
     neighbors = []
@@ -25,7 +24,6 @@ def get_neighbors(board):
         for move in moves:
             if board.is_valid(car, move):
                 neighbors.append({'car': car.name, 'move': move})
-
     return neighbors
 
 def get_neighbor_states(board, visited):
@@ -33,8 +31,6 @@ def get_neighbor_states(board, visited):
     Generates all neighboring states based on possible moves and adds them to the queue.
     """
     neighbors = get_neighbors(board)
-    if not neighbors:
-        print('No neighbours')
     neighbor_states = []
 
     for neighbor in neighbors:
@@ -45,13 +41,12 @@ def get_neighbor_states(board, visited):
         board.move(car, move)
         board_tmp = copy.deepcopy(board.board)
 
+        # Adds moves to the visited set if they are not already in there
         if tuple(sum(board_tmp, [])) not in visited:
             neighbor_states.append((copy.deepcopy(board.get_car_coördinates()), (car.name, move)))
-
-            # TODO: Explain
             visited.add(tuple(sum(board_tmp, [])))
 
-        # Undo the move
+        # Undo the move and return to initial state
         board.move(car, -1 * move)
     
     return neighbor_states
@@ -74,7 +69,7 @@ def breadth_first_search(board_file, n_games, max_time_game = float('inf'), max_
         # Initialize queue and visited set
         queue = deque()
         visited = set()
-
+        
         # Add the initial board state to the queue
         initial_state = tuple(sum(board.board, []))  
         visited.add(initial_state)
@@ -106,7 +101,7 @@ def breadth_first_search(board_file, n_games, max_time_game = float('inf'), max_
 
 def get_path_as_csv(path, filename = "output.csv"):
     """
-    Return moves needed to solve puzzle as csv
+    Return moves needed to solve puzzle as csv. 
     """
     # Make list of dictionaries that can be transormed to csv
     logbook = []
